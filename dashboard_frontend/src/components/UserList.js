@@ -17,11 +17,20 @@ const UserList = () => {
     setDarkMode(!darkMode);
   };
 
+  const handleDelete = (userId) => {
+    axios.delete(`/api/users/${userId}`)
+      .then(() => {
+        // Remove the deleted user from the list
+        setUsers(users.filter(user => user.id !== userId));
+      })
+      .catch(error => console.error('There was an error deleting the user!', error));
+  };
+
   const topUser = users.reduce((prev, current) => (prev.followers > current.followers) ? prev : current, {});
 
   return (
     <div className={`container mt-4 ${darkMode ? 'dark-mode' : ''}`}>
-      <div className="header">
+      <div className={`header ${users.length === 0 ? 'd-none' : ''}`}>
         <h1>{topUser.name}</h1>
         <p>{topUser.bio}</p>
         <div className="header-buttons">
@@ -39,7 +48,7 @@ const UserList = () => {
         {users.map(user => (
           <div key={user.id} className={`list-item ${darkMode ? 'dark-mode-item' : ''}`}>
             <div className="list-item-image-container">
-             <img className="list-item-image" src="https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg" alt="UserIcon" />
+              <img className="list-item-image" src="https://t4.ftcdn.net/jpg/00/65/77/27/360_F_65772719_A1UV5kLi5nCEWI0BNLLiFaBPEkUbv5Fv.jpg" alt="UserIcon" />
             </div>
             <div className="list-item-content">
               <Link to={`/user/${user.id}`} className={`text-decoration-none ${darkMode ? 'text-light' : 'text-dark'}`}>
@@ -50,16 +59,23 @@ const UserList = () => {
               <p className={darkMode ? 'text-muted' : ''}>Followers: {user.followers}</p>
               <p className={darkMode ? 'text-muted' : ''}>Following: {user.following}</p>
               <p className={darkMode ? 'text-muted' : ''}>Posts: {user.posts}</p>
-              
+              <button
+                className={`btn btn-danger ${darkMode ? 'btn-outline-light' : ''}`}
+                onClick={() => handleDelete(user.id)}
+              >
+                Delete
+              </button>
             </div>
-            <Link to={`/user/${user.id}`} className={`text-decoration-none text-right`}>
+            <div className="list-item-actions">
+              <Link to={`/user/${user.id}`} className={`text-decoration-none text-right`}>
                 <p className='text-lg-right'>View More</p>
               </Link>
+            
+            </div>
           </div>
         ))}
       </div>
-      
-    </div>
+   </div>
   );
 };
 
