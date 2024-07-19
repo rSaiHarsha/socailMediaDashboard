@@ -1,6 +1,7 @@
 # Social Media Analytics Dashboard
 
-This project is a Social Media Analytics Dashboard developed using React for the front end and Java (Spring Boot) for the back end. The dashboard displays social media posts from different platforms and provides basic analytics.
+This project is a Social Media Analytics Dashboard developed using React for the front end and Java (Spring Boot) for the back end. The dashboard displays social media posts from different platforms and provides basic analytics. 
+[web app](https://socialmediadashboard-cpyw2rvza-rsaiharshas-projects.vercel.app/)
 
 ## Features
 
